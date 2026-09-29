@@ -1,11 +1,12 @@
 data "aws_iam_policy_document" "github_oidc_trust" {
   statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
+    sid     = "GitHubActionsOIDCTrust"
     effect  = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
       type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.github.arn]
+      identifiers = ["arn:aws:iam::883225547196:oidc-provider/token.actions.githubusercontent.com"]
     }
 
     condition {
@@ -14,11 +15,10 @@ data "aws_iam_policy_document" "github_oidc_trust" {
       values   = ["sts.amazonaws.com"]
     }
 
-    # Restrict strictly to your repository
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = local.github_oidc_sub_claims
+      values   = ["repo:hkhan1993/*:*"]
     }
   }
 }
