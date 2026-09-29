@@ -1,8 +1,8 @@
 # 1. Register GitHub as an OpenID Connect Identity Provider in AWS
 resource "aws_iam_openid_connect_provider" "github" {
-  url             = "https://token.actions.githubusercontent.com"
-  client_id_list  = ["sts.amazonaws.com"]
-  
+  url            = "https://token.actions.githubusercontent.com"
+  client_id_list = ["sts.amazonaws.com"]
+
   # Standard GitHub OIDC Thumbprint (AWS automatically handles validation)
   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
 }
