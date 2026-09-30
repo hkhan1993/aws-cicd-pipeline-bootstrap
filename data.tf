@@ -18,8 +18,7 @@ data "aws_iam_policy_document" "github_oidc_trust" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:hkhan1993/*"]
+      values   = ["repo:hkhan1993/*","repo:hkhan1993/*:*"]
     }
   }
 }
-#testing#
