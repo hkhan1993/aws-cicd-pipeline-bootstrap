@@ -1,12 +1,12 @@
+# 2. Trust Policy Data Source
 data "aws_iam_policy_document" "github_oidc_trust" {
   statement {
-    sid     = "GitHubActionsOIDCTrust"
     effect  = "Allow"
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
       type        = "Federated"
-      identifiers = ["arn:aws:iam::883225547196:oidc-provider/token.actions.githubusercontent.com"]
+      identifiers = [aws_iam_openid_connect_provider.github.arn]
     }
 
     condition {
@@ -15,11 +15,11 @@ data "aws_iam_policy_document" "github_oidc_trust" {
       values   = ["sts.amazonaws.com"]
     }
 
+    # Allows both pushes to main AND pull requests from your repository
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      # Matches any repository owned by hkhan1993 and any branch, tag, PR, or environment
-      values   = ["repo:hkhan1993/*:*", "repo:hkhan1993/*"]
+      values   = ["repo:hkhan1993/*:*"]
     }
   }
 }
