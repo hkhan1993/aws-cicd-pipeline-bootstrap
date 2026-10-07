@@ -18,7 +18,8 @@ data "aws_iam_policy_document" "github_oidc_trust" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:hkhan1993/*","repo:hkhan1993/*:*"]
+      # Matches any repository owned by hkhan1993 and any branch, tag, PR, or environment
+      values   = ["repo:hkhan1993/*:*", "repo:hkhan1993/*"]
     }
   }
 }
